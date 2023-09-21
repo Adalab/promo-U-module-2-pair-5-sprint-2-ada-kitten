@@ -97,9 +97,13 @@ function addNewKitten(event) {
   ) {
     labelMessageError.innerHTML = `¡Uy, parece que has olvidado algo!`;
   } else {
-    const cardKitten = renderKitten(newKitten);
-    jsList.innerHTML += cardKitten;
+   
+    kittenDataList.push(newKitten); 
+    renderKittenList(kittenDataList);
+    labelMessageError.innerHTML = `Mola! Un nuevo gatito en Adalab!`;
   }
+
+  
 }
 
 function renderKittenList(kittenDataList) {
