@@ -3,6 +3,7 @@
 
 const jsList = document.querySelector('.js-list');
 const input_search_desc = document.querySelector('.js_in_search_desc');
+const input_search_race = document.querySelector('.js_in_search_race');
 
 const jsbtnadd = document.querySelector('.js-btn-add');
 const newForm = document.querySelector('.new-form');
@@ -127,13 +128,19 @@ jsNewformCancel.addEventListener('click', () => {
 function filterKitten(event) {
   event.preventDefault();
   const descrSearchText = input_search_desc.value;
+  const raceSearchText = input_search_race.value;
   jsList.innerHTML = '';
-  for (const kittenItem of kittenDataList) {
-    if (kittenItem.desc.includes(descrSearchText)) {
-      jsList.innerHTML += renderKitten(kittenItem);
-    }
-  }
+ const filterKittenList = kittenDataList
+ .filter((item) => item.desc.includes(descrSearchText))
+ .filter((item) => item.race.includes(raceSearchText));
+
+ renderKittenList(filterKittenList);
+
 }
+
+console.log(filterKitten);
+
+
 
 //manejadores
 
