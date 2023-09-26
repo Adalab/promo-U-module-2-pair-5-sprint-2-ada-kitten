@@ -25,16 +25,33 @@ const SERVER_URL = `https://dev.adalab.es/api/kittens/${GITHUB_USER}`;
 
 const descrSearchText = input_search_desc.value;
 
-//Traer gatitos del servidor
+//Traer gatitos del servidor / cogerlos del local storage
 
 let kittenDataList = [];
-fetch(SERVER_URL)
-.then((response) => response.json())
-  .then((data) => {
-    kittenDataList = data.results;
-    console.log(kittenDataList);
-    renderKittenList(kittenDataList);
-  });
+
+const kittenListStored = JSON.parse(localStorage.getItem('kittenDataList'));
+
+if (kittenListStored) {
+  //si existe el listado de gatitos en el local storage
+  // vuelve a pintar el listado de gatitos
+  //...
+  //completa el código...
+  kittenDataList = kittenListStored;
+  renderKittenList(kittenDataList);
+} else {
+  //sino existe el listado de gatitos en el local storage
+  //haz la petición al servidor
+  fetch(SERVER_URL)
+    .then((response) => response.json())
+    .then((data) => {
+      kittenDataList = data.results;
+      localStorage.setItem('gatitos', JSON.stringify(kittenDataList));
+      renderKittenList(kittenDataList);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
 
 
 //funciones
@@ -92,13 +109,10 @@ function addNewKitten(event) {
   ) {
     labelMessageError.innerHTML = `¡Uy, parece que has olvidado algo!`;
   } else {
-   
-    kittenDataList.push(newKitten); 
+    kittenDataList.push(newKitten);
     renderKittenList(kittenDataList);
     labelMessageError.innerHTML = `Mola! Un nuevo gatito en Adalab!`;
   }
-
-  
 }
 
 function renderKittenList(kittenDataList) {
@@ -123,17 +137,14 @@ function filterKitten(event) {
   const descrSearchText = input_search_desc.value;
   const raceSearchText = input_search_race.value;
   jsList.innerHTML = '';
- const filterKittenList = kittenDataList
- .filter((item) => item.desc.includes(descrSearchText))
- .filter((item) => item.race.includes(raceSearchText));
+  const filterKittenList = kittenDataList
+    .filter((item) => item.desc.includes(descrSearchText))
+    .filter((item) => item.race.includes(raceSearchText));
 
- renderKittenList(filterKittenList);
-
+  renderKittenList(filterKittenList);
 }
 
 console.log(filterKitten);
-
-
 
 //manejadores
 
