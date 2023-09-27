@@ -113,6 +113,12 @@ function addNewKitten(event) {
     renderKittenList(kittenDataList);
     labelMessageError.innerHTML = `Mola! Un nuevo gatito en Adalab!`;
   }
+
+  // fetch(SERVER_URL)
+  // .then((response) => response.json())
+  // .then((data) => { 
+
+  // })
 }
 
 function renderKittenList(kittenDataList) {
