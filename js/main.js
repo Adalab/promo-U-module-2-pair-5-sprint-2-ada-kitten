@@ -18,7 +18,7 @@ const jsNewformAdd = document.querySelector('.js-newform-add');
 const jsNewformCancel = document.querySelector('.js-newform-cancel');
 const jsBtnSearch = document.querySelector('.js_btn_search');
 
-const GITHUB_USER = 'ArantzaGG';
+const GITHUB_USER = '<BravoCarmen>';
 const SERVER_URL = `https://dev.adalab.es/api/kittens/${GITHUB_USER}`;
 
 //datos generales
@@ -41,8 +41,7 @@ if (kittenListStored) {
 } else {
   //sino existe el listado de gatitos en el local storage
   //haz la petición al servidor
-  fetch(SERVER_URL,{mode:"no-cors", method:"get"})
-  
+  fetch(SERVER_URL)
     .then((response) => response.json())
     .then((data) => {
       kittenDataList = data.results;
@@ -54,46 +53,51 @@ if (kittenListStored) {
     });
 }
 
-
 // //funciones
-// function renderKitten(kittenDataList) {
-//   for(const item of kittenDataList){
-//   const liElement = document.createElement('li');
-//   liElement.classList.add('list');
-//   jsList.appendChild(liElement);
-//   const articleElement = document.createElement ('article');
-//   liElement.appendChild(articleElement);
-//   const imgElement = document.createElement ('img');
-//   imgElement.setAttribute('src', item.image);
-//   const h3Element = document.createElement ('h3');
-//   const textH3 = document.createTextNode(item.name);
-//   h3Element.appendChild(textH3);
-//   const h4Element = document.createElement ('h4');
-//   const textH4 = document.createTextNode(item.race);
-//   h4Element.appendChild(textH4);
-//   const pElement = document.createElement ('p');
-//   const textDesc = document.createTextNode(item.desc);
-//   pElement.appendChild(textDesc);
-// }}
-
-
-
 function renderKitten(kittenData) {
-  return `<li class="card">
-<article>
-  <img
-    class="card_img"
-    src= "${kittenData.image}"
-    alt="gatito"
-    />
-    <h3 class="card_title">${kittenData.name}</h3>
-    <h4 class="card_race">${kittenData.race}</h4>
-    <p class="card_description">
-    ${kittenData.desc}
-   </p>
-</article>
-</li>`;
+  const liElement = document.createElement('li');
+  liElement.classList.add('card');
+  const articleElement = document.createElement('article');
+  liElement.appendChild(articleElement);
+  const imgElement = document.createElement('img');
+  imgElement.setAttribute('src', kittenData.image);
+  imgElement.classList.add('card_img');
+  articleElement.appendChild(imgElement);
+  const h3Element = document.createElement('h3');
+  h3Element.classList.add('card_tittle');
+  const textH3 = document.createTextNode(kittenData.name);
+  h3Element.appendChild(textH3);
+  articleElement.appendChild(h3Element);
+  const h4Element = document.createElement('h4');
+  const textH4 = document.createTextNode(kittenData.race);
+  h4Element.appendChild(textH4);
+  h4Element.classList.add('card_race');
+  articleElement.appendChild(h4Element);
+  const pElement = document.createElement('p');
+  pElement.classList.add('card_description');
+  const textDesc = document.createTextNode(kittenData.desc);
+  pElement.appendChild(textDesc);
+  articleElement.appendChild(pElement);
+
+  return liElement;
 }
+
+// function renderKitten(kittenData) {
+//   return `<li class="card">
+// <article>
+//   <img
+//     class="card_img"
+//     src= "${kittenData.image}"
+//     alt="gatito"
+//     />
+//     <h3 class="card_title">${kittenData.name}</h3>
+//     <h4 class="card_race">${kittenData.race}</h4>
+//     <p class="card_description">
+//     ${kittenData.desc}
+//    </p>
+// </article>
+// </li>`;
+// }
 
 //mostrar-ocultar formulario
 
@@ -138,15 +142,15 @@ function addNewKitten(event) {
 
   // fetch(SERVER_URL)
   // .then((response) => response.json())
-  // .then((data) => { 
+  // .then((data) => {
 
   // })
 }
 
 function renderKittenList(kittenDataList) {
   jsList.innerHTML = '';
-  for (i = 0; i < kittenDataList.length; i++) {
-    jsList.innerHTML += renderKitten(kittenDataList[i]);
+  for (const kittenItem of kittenDataList) {
+    jsList.appendChild(renderKitten(kittenItem));
   }
 }
 
